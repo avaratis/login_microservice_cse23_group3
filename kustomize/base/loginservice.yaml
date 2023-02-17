@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loginservice
+spec:
+  selector:
+    matchLabels:
+      app: loginservice
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: loginservice
+    spec:
+      containers:
+        - name: loginservice
+          image: your-docker-registry/loginservice:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loginservice
+spec:
+  selector:
+    app: loginservice
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
