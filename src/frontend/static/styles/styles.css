@@ -70,6 +70,20 @@ header .cart-size-circle {
   color: white;
   background-color: #853B5C;
 }
+header .login-size-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 24px;
+  left: 11px;
+  width: 16px;
+  height: 16px;
+  font-size: 11px;
+  border-radius: 4px 4px 0 4px;
+  color: white;
+  background-color: #853B5C;
+}
 
 header .h-free-shipping {
   font-size: 14px;

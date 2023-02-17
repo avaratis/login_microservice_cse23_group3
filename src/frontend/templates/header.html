@@ -79,6 +79,13 @@
                         <span class="cart-size-circle">{{$.cart_size}}</span>
                         {{ end }}
                     </a>
+
+                    <a href="/login" class="login-link">
+                        <img src="/static/icons/Hipster_Login.png" alt="login icon" class="logo" title="Login" />
+                        {{ if $.cart_size }}
+                        <span class="login-size-circle">{{$.cart_size}}</span>
+                        {{ end }}
+                    </a>
                 </div>
             </div>
         </div>
