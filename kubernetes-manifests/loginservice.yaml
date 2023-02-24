@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: login-microservice
+  template:
+    metadata:
+      labels:
+        app: login-microservice
+    spec:
+      containers:
+    --- add db here
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: login-microservice
+spec:
+  selector:
+    app: login-microservice
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: login-microservice-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /login(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: login-microservice
+            port:
+              name: http
