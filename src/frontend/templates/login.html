@@ -1,0 +1,170 @@
+{{ define "login" }}
+    {{ template "header" . }}
+    
+    <div {{ with $.platform_css }} class="{{.}}" {{ end }}>
+        <span class="platform-flag">
+            {{$.platform_name}}
+        </span>
+    </div>
+    
+    <main role="main" class="login-sections">
+
+        
+        <section class="container">
+            <div class="row">
+
+                
+
+                <div class="col-lg-5 offset-lg-1 col-xl-4">
+
+                    <form class="login-form" action="/login/" method="POST">
+
+                        <div class="row">
+                            <div class="col">
+                                
+                            <h3>Register your personal data</h3><a>Get a quicker checkout experience</a></div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col cymbal-form-field">
+                                <label for="email">Full Legal Name</label>
+                                <input type="email" id="email" name="email" value="Max Mustermann" required="">
+                            </div>
+                        </div><div class="form-row">
+                            <div class="col cymbal-form-field">
+                                <label for="email">E-mail Address</label>
+                                <input type="email" id="email" name="email" value="someone@example.com" required="">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col cymbal-form-field">
+                                <label for="street_address">Street Address</label>
+                                <input type="text" name="street_address" id="street_address" value="1600 Amphitheatre Parkway" required="">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col cymbal-form-field">
+                                <label for="zip_code">Zip Code</label>
+                                <input type="text" name="zip_code" id="zip_code" value="94043" required="" pattern="\d{4,5}">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col cymbal-form-field">
+                                <label for="city">City</label>
+                                <input type="text" name="city" id="city" value="Mountain View" required="">
+                                </div>
+                            </div>
+
+                        <div class="form-row">
+                            <div class="col-md-5 cymbal-form-field">
+                                <label for="state">State</label>
+                                <input type="text" name="state" id="state" value="CA" required="">
+                            </div>
+                            <div class="col-md-7 cymbal-form-field">
+                                <label for="country">Country</label>
+                                <input type="text" id="country" placeholder="Country Name" name="country" value="United States" required="">
+                            </div>
+                        </div>
+
+                        
+
+                        
+
+                        
+
+                        
+
+                    </form>
+
+                </div>
+
+            <div class="col-lg-5 offset-lg-1 col-xl-4">
+
+                    <form class="login-checkout-form" action="/login/checkout" method="POST">
+
+                        
+
+                        
+
+                        
+
+                        
+
+                        
+
+                        
+
+                        <div class="row">
+                            <div class="col">
+                                <h3 class="payment-method-heading" style="margin-top: 45px;">Payment Method</h3>
+
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col cymbal-form-field" style="margin-top: 45px">
+                                <label for="credit_card_number">Credit Card Number</label>
+                                <input type="text" id="credit_card_number" name="credit_card_number" placeholder="0000-0000-0000-0000" value="4432-8015-6152-0454" required="" pattern="\d{4}-\d{4}-\d{4}-\d{4}">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="col-md-5 cymbal-form-field">
+                                <label for="credit_card_expiration_month">Month</label>
+                                <select name="credit_card_expiration_month" id="credit_card_expiration_month">
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">January</option>
+                                </select>
+                                <img src="/static/icons/Hipster_DownArrow.svg" alt="" class="cymbal-dropdown-chevron">
+                            </div>
+                            <div class="col-md-4 cymbal-form-field">
+                                    <label for="credit_card_expiration_year">Year</label>
+                                    <select name="credit_card_expiration_year" id="credit_card_expiration_year">
+                                    <option value="2023">2023</option><option value="2024" selected="selected">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option>
+                                    </select>
+                                    <img src="/static/icons/Hipster_DownArrow.svg" alt="" class="cymbal-dropdown-chevron">
+                                </div>
+                            <div class="col-md-3 cymbal-form-field">
+                                <label for="credit_card_cvv">CVV</label>
+                                <input type="password" id="credit_card_cvv" name="credit_card_cvv" value="672" required="" pattern="\d{3}">
+                            </div>
+                        </div>
+                    </form>
+
+                </div></div>
+        <div class="form-row justify-content-center" style="margin-top: 45px;">
+                            <div class="col text-center">
+                                
+                                
+                                <a class="col-4 pl-md-0" href="/" role="button">
+                                   Cancel Registration
+                                </a>
+                            
+<button class="cymbal-button-primary" type="submit">
+                                   Submit
+                                </button>
+                            </div>
+                        </div></section>
+        {{ end }} <!-- end if $.items -->
+
+    </main>
+
+    {{ if $.recommendations }}
+        {{ template "recommendations" $.recommendations }}
+    {{ end }}
+
+    {{ template "footer" . }}
+    {{ end }}
