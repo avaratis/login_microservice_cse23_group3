@@ -1,34 +1,73 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: loginservice
+  name: login-microservice
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: loginservice
-  replicas: 1
+      app: login-microservice
   template:
     metadata:
       labels:
-        app: loginservice
+        app: login-microservice
     spec:
       containers:
-        - name: loginservice
-          image: your-docker-registry/loginservice:latest
+
+ serviceAccountName: default
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: server
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - all
+            privileged: false
+            readOnlyRootFilesystem: true
+          image: login-microservice
           ports:
-            - containerPort: 3000
+          - containerPort: 5050
+          readinessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:5050"]
+          livenessProbe:
+            exec:
+              command: ["/bin/grpc_health_probe", "-addr=:5050"]
           env:
-            - name: NODE_ENV
-              value: "production"
+          - name: PORT
+            value: "5050"
+          - name: SHIPPING_SERVICE_ADDR
+            value: "shippingservice:50051"
+          - name: PAYMENT_SERVICE_ADDR
+            value: "paymentservice:50051"
+          - name: EMAIL_SERVICE_ADDR
+            value: "emailservice:5000"
+          - name: CURRENCY_SERVICE_ADDR
+            value: "currencyservice:7000"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: loginservice
+  name: login-microservice
 spec:
+  type: ClusterIP
   selector:
-    app: loginservice
+    app: login-microservice
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
+  - name: http
+    port: 80
+    targetPort: 8080
