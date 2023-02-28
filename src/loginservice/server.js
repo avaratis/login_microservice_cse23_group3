@@ -1,17 +1,3 @@
-// Copyright 2018 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 const path = require('path');
 const grpc = require('@grpc/grpc-js');
 const pino = require('pino');
@@ -20,7 +6,7 @@ const protoLoader = require('@grpc/proto-loader');
 const charge = require('./charge');
 
 const logger = pino({
-  name: 'paymentservice-server',
+  name: 'loginservice-server',
   messageKey: 'message',
   formatters: {
     level (logLevelString, logLevelNum) {
@@ -29,12 +15,13 @@ const logger = pino({
   }
 });
 
-class HipsterShopServer {
-  constructor(protoRoot, port = HipsterShopServer.PORT) {
+class LoginServiceServer {
+  constructor(protoRoot, port = LoginServiceServer.PORT) {
     this.port = port;
+    this.protoRoot = protoRoot;
 
     this.packages = {
-      hipsterShop: this.loadProto(path.join(protoRoot, 'demo.proto')),
+      login: this.loadProto(path.join(protoRoot, 'login.proto')),
       health: this.loadProto(path.join(protoRoot, 'grpc/health/v1/health.proto'))
     };
 
@@ -42,15 +29,11 @@ class HipsterShopServer {
     this.loadAllProtos(protoRoot);
   }
 
-  /**
-   * Handler for PaymentService.Charge.
-   * @param {*} call  { ChargeRequest }
-   * @param {*} callback  fn(err, ChargeResponse)
-   */
-  static ChargeServiceHandler(call, callback) {
+  static LoginServiceHandler(call, callback) {
     try {
-      logger.info(`PaymentService#Charge invoked with request ${JSON.stringify(call.request)}`);
-      const response = charge(call.request);
+      logger.info(`LoginService#Login invoked with request ${JSON.stringify(call.request)}`);
+      // Process the login request here
+      const response = { success: true };
       callback(null, response);
     } catch (err) {
       console.warn(err);
@@ -62,15 +45,14 @@ class HipsterShopServer {
     callback(null, { status: 'SERVING' });
   }
 
-
   listen() {
-    const server = this.server 
-    const port = this.port
+    const server = this.server;
+    const port = this.port;
     server.bindAsync(
       `[::]:${port}`,
       grpc.ServerCredentials.createInsecure(),
       function () {
-        logger.info(`PaymentService gRPC server started on port ${port}`);
+        logger.info(`LoginService gRPC server started on port ${port}`);
         server.start();
       }
     );
@@ -91,25 +73,25 @@ class HipsterShopServer {
   }
 
   loadAllProtos(protoRoot) {
-    const hipsterShopPackage = this.packages.hipsterShop.hipstershop;
+    const loginPackage = this.packages.login.login;
     const healthPackage = this.packages.health.grpc.health.v1;
 
     this.server.addService(
-      hipsterShopPackage.PaymentService.service,
+      loginPackage.LoginService.service,
       {
-        charge: HipsterShopServer.ChargeServiceHandler.bind(this)
+        login: LoginServiceServer.LoginServiceHandler.bind(this)
       }
     );
 
     this.server.addService(
       healthPackage.Health.service,
       {
-        check: HipsterShopServer.CheckHandler.bind(this)
+        check: LoginServiceServer.CheckHandler.bind(this)
       }
     );
   }
 }
 
-HipsterShopServer.PORT = process.env.PORT;
+LoginServiceServer.PORT = process.env.PORT;
 
-module.exports = HipsterShopServer;
+module.exports = LoginServiceServer;
