@@ -31,13 +31,13 @@ spec:
             readOnlyRootFilesystem: true
           image: login-microservice
           ports:
-          - containerPort: 8080
+          - containerPort: 5070
           readinessProbe:
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+              command: ["/bin/grpc_health_probe", "-addr=:5070"]
           livenessProbe:
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:8080"]
+              command: ["/bin/grpc_health_probe", "-addr=:5070"]
           env:
           - name: PORT
             value: "8080"
@@ -69,6 +69,6 @@ spec:
   selector:
     app: login-microservice
   ports:
-  - name: http
-    port: 80
-    targetPort: 8080
+  - name: grpc
+    port: 5070
+    targetPort: 5070
