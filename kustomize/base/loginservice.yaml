@@ -49,6 +49,7 @@ spec:
             value: "emailservice:5000"
           - name: CURRENCY_SERVICE_ADDR
             value: "currencyservice:7000"
+
           resources:
             requests:
               cpu: 100m
