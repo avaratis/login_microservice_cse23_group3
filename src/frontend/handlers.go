@@ -403,6 +403,24 @@ func (fe *frontendServer) logoutHandler(w http.ResponseWriter, r *http.Request) 
 	w.WriteHeader(http.StatusFound)
 }
 
+func (fe *frontendServer) loginHandler(w http.ResponseWriter, r *http.Request) {
+    log := r.Context().Value(ctxKeyLog{}).(logrus.FieldLogger)
+    log.Debug("logging in")
+    
+    cookie := &http.Cookie{
+        Name: "session",
+        Value: "some-session-token",
+        Expires: time.Now().Add(time.Hour * 24 * 30), 
+        HttpOnly: true,
+        Secure: true, 
+        SameSite: http.SameSiteStrictMode,
+    }
+    http.SetCookie(w, cookie)
+    
+    w.Header().Set("Location", "/dashboard")
+    w.WriteHeader(http.StatusFound)
+}
+
 func (fe *frontendServer) setCurrencyHandler(w http.ResponseWriter, r *http.Request) {
 	log := r.Context().Value(ctxKeyLog{}).(logrus.FieldLogger)
 	cur := r.FormValue("currency_code")
