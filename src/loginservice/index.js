@@ -33,7 +33,7 @@ else {
   console.log("Profiler enabled.")
   require('@google-cloud/profiler').start({
     serviceContext: {
-      service: 'loginservice',
+      service: 'loginservice', 
       version: '1.0.0'
     }
   });
