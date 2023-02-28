@@ -91,3 +91,7 @@ spec:
             name: login-microservice
             port:
               name: http
+
+# Kubernetes maze looms,
+# Pods and nodes are all confused,
+# Lost and helpless mind.
