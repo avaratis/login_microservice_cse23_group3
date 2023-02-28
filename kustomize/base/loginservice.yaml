@@ -31,16 +31,16 @@ spec:
             readOnlyRootFilesystem: true
           image: login-microservice
           ports:
-          - containerPort: 5050
+          - containerPort: 8080
           readinessProbe:
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:5050"]
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
           livenessProbe:
             exec:
-              command: ["/bin/grpc_health_probe", "-addr=:5050"]
+              command: ["/bin/grpc_health_probe", "-addr=:8080"]
           env:
           - name: PORT
-            value: "5050"
+            value: "8080"
           - name: SHIPPING_SERVICE_ADDR
             value: "shippingservice:50051"
           - name: PAYMENT_SERVICE_ADDR
