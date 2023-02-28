@@ -5,6 +5,22 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 5070;
 
+
+const form = document.querySelector('#loginservice-form');
+form.addEventListener('submit', (event) => {
+  event.preventDefault(); 
+  const formData = new FormData(form);
+  const fullName = formData.get('full_name');
+  const email = formData.get('email');
+  const streetAddress = formData.get('street_address');
+  const zipCode = formData.get('zip_code');
+  const city = formData.get('city');
+  const state = formData.get('state');
+  const country = formData.get('country');
+  console.log(fullName, email, streetAddress, zipCode, city, state, country); // logs the values entered by the user
+
+});
+
 // Users database
 const users = [
   {
