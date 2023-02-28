@@ -11,10 +11,10 @@ spec:
     metadata:
       labels:
         app: login-microservice
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
-      containers:
-
- serviceAccountName: default
+      serviceAccountName: default
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
