@@ -1,13 +1,13 @@
 {
-  "name": "paymentservice",
+  "name": "loginservice",
   "version": "0.0.1",
-  "description": "Payment Microservice demo",
-  "repository": "https://github.com/GoogleCloudPlatform/microservices-demo",
+  "description": "Login Microservice demo (its not working)",
+  "repository": "https://github.com/avaratis/login_microservice_cse23_group3.git",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Jonathan Lui",
+  "author": "Marc Schwarzappel",
   "license": "ISC",
   "dependencies": {
     "@google-cloud/profiler": "5.0.3",
@@ -19,7 +19,6 @@
     "@opentelemetry/sdk-trace-base": "1.8.0",
     "@opentelemetry/sdk-node": "0.34.0",
     "pino": "8.8.0",
-    "simple-card-validator": "^1.1.0",
     "uuid": "^9.0.0"
   }
 }
